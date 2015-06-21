@@ -1,0 +1,6 @@
+guff
+test_guff
+*.o
+
+afl/
+testdata/

@@ -1,0 +1,127 @@
+guff(1) -- a plot device
+=================================================
+
+## SYNOPSIS
+
+`guff` [-A] [-c] [-d WxH] [-f] [-h] [-l xyc]
+       [-m MODE] [-r] [-s] [-S] [-x] [FILE]
+
+
+## DESCRIPTION
+
+guff reads a stream of points from a file / stdin and plots them.
+
+
+## OPTIONS
+
+Common options:
+
+  * `-d WxH`:
+    Set the dimensions (width and height). Should be formatted
+    like "-d WxH", e.g. "-d 72x40" or "-d 640x480".
+
+  * `-f`:
+    Flip X and Y axes in plot.
+
+  * `-h`:
+    Print a help message.
+
+  * `-l xyc`:
+    Set X, Y, and/or Count to log-scale.
+
+  * `-m MODE`:
+    Set mode to dot (default), line (SVG only), or count (which
+    tracks how densely clustered points are).
+
+  * `-x`:
+    Treat the first column as the X value for the other columns.
+    Otherwise, the row number is used for the X value.
+
+SVG-only options:
+
+  * `-c`:
+    Use colorblind-safe default colors.
+
+  * `-r`:
+    Draw a linear regression line for each column.
+
+Rare options:
+
+  * `-A`:
+    Don't draw axes.
+
+  * `-S`:
+    Disable stream mode (exit at first blank line).
+
+
+## EXIT STATUS
+
+Returns 0.
+
+
+## EXAMPLES
+
+Read a series of number rows on stdin, and plot to ASCII once
+end-of-stream or a blank line is reached:
+
+    $ guff
+
+Same, but generate SVG:
+
+    $ guff -s
+
+Read number rows from a file:
+
+    $ guff file
+
+Plot stdin with a log-scale on the Y axis:
+
+    $ guff -ly
+
+Treat the first value on each line as the X value for all columns:
+
+    $ guff -x
+
+Plot stdin to SVG, with lines connecting the points:
+
+    $ guff -s -m line
+
+Same, but using a colorblind-safe palette:
+
+    $ guff -s -c -m line
+
+Plot stdin to SVG, and draw a linear regression line for each column:
+
+    $ guff -s -r
+
+Plot stdin with point counts, to show point density:
+
+    $ guff -m count
+
+Same, with a log scale for the point counts:
+
+    $ guff -m count -lc
+
+Same, with SVG output:
+
+    $ guff -s -m count -lc
+
+
+## BUGS
+
+There isn't a way to change the plot options when a blank line resets
+the data.
+
+Rather than attempt to intelligently handle strange input, guff just
+skips the rest of the line when strtod(3) indicates there isn't a
+well-formatted number.
+
+
+## COPYRIGHT
+
+**guff** is Copyright (C) 2015 Scott Vokes <vokes.s@gmail.com>.
+
+
+## SEE ALSO
+
+awk(1)

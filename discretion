@@ -1,0 +1,69 @@
+#!/usr/bin/awk -f
+# Copyright (c) 2015 Scott Vokes <vokes.s@gmail.com>
+# 
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+#
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+# Read a stream of lines containing SVG documents, broken up by blank lines
+# (as output by `guff -s`), and save them as timestamped .svg files.
+
+BEGIN {
+    if (ARGC > 1) {
+        name = ARGV[1]
+        ARGC--
+    } else {
+        name = "out"
+    }
+
+    timestamp_cmd = "date \"+%Y-%m-%dT%H:%M:%S%z\""
+    sec_i = 0
+    next_file()
+}
+
+function get_timestamp(   t) {
+    timestamp_cmd | getline t
+
+    # close the pipe from date(1), so the next date is fresh
+    close(timestamp_cmd)
+    return t
+}
+
+function next_file() {
+    last_out_date = out_date
+    out_date = get_timestamp()
+    if (out_date == last_out_date) {
+        sec_i++
+    } else {
+        sec_i = 0
+    }
+    out_file = out_name(out_date, sec_i)
+    clobber(out_file)
+}
+
+function clobber(name) {
+    printf("") > name
+}
+
+function out_name(timestamp, i) {
+    return sprintf("%s_%s_%d.svg", name, timestamp, i)
+}
+
+/^$/ {
+    symlink_cmd = sprintf("ln -s -f '%s' '%s_newest.svg'", out_file, name)
+    system(symlink_cmd)
+    next_file()
+    next
+}
+
+/.*/ {
+    print($0) >> out_file
+}

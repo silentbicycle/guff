@@ -1,0 +1,220 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "GUFF" "1" "July 2015" "" ""
+.
+.SH "NAME"
+\fBguff\fR \- a plot device
+.
+.SH "SYNOPSIS"
+\fBguff\fR [\-A] [\-c] [\-d WxH] [\-f] [\-h] [\-l xyc] [\-m MODE] [\-r] [\-s] [\-S] [\-x] [FILE]
+.
+.SH "DESCRIPTION"
+guff reads a stream of points from a file / stdin and plots them\.
+.
+.SH "OPTIONS"
+Common options:
+.
+.TP
+\fB\-d WxH\fR
+Set the dimensions (width and height)\. Should be formatted like "\-d WxH", e\.g\. "\-d 72x40" or "\-d 640x480"\.
+.
+.TP
+\fB\-f\fR
+Flip X and Y axes in plot\.
+.
+.TP
+\fB\-h\fR
+Print a help message\.
+.
+.TP
+\fB\-l xyc\fR
+Set X, Y, and/or Count to log\-scale\.
+.
+.TP
+\fB\-m MODE\fR
+Set mode to dot (default), line (SVG only), or count (which tracks how densely clustered points are)\.
+.
+.TP
+\fB\-x\fR
+Treat the first column as the X value for the other columns\. Otherwise, the row number is used for the X value\.
+.
+.P
+SVG\-only options:
+.
+.TP
+\fB\-c\fR
+Use colorblind\-safe default colors\.
+.
+.TP
+\fB\-r\fR
+Draw a linear regression line for each column\.
+.
+.P
+Rare options:
+.
+.TP
+\fB\-A\fR
+Don\'t draw axes\.
+.
+.TP
+\fB\-S\fR
+Disable stream mode (exit at first blank line)\.
+.
+.SH "EXIT STATUS"
+Returns 0\.
+.
+.SH "EXAMPLES"
+Read a series of number rows on stdin, and plot to ASCII once end\-of\-stream or a blank line is reached:
+.
+.IP "" 4
+.
+.nf
+
+$ guff
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Same, but generate SVG:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-s
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Read number rows from a file:
+.
+.IP "" 4
+.
+.nf
+
+$ guff file
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Plot stdin with a log\-scale on the Y axis:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-ly
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Treat the first value on each line as the X value for all columns:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-x
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Plot stdin to SVG, with lines connecting the points:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-s \-m line
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Same, but using a colorblind\-safe palette:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-s \-c \-m line
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Plot stdin to SVG, and draw a linear regression line for each column:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-s \-r
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Plot stdin with point counts, to show point density:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-m count
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Same, with a log scale for the point counts:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-m count \-lc
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Same, with SVG output:
+.
+.IP "" 4
+.
+.nf
+
+$ guff \-s \-m count \-lc
+.
+.fi
+.
+.IP "" 0
+.
+.SH "BUGS"
+There isn\'t a way to change the plot options when a blank line resets the data\.
+.
+.P
+Rather than attempt to intelligently handle strange input, guff just skips the rest of the line when strtod(3) indicates there isn\'t a well\-formatted number\.
+.
+.SH "COPYRIGHT"
+\fBguff\fR is Copyright (C) 2015 Scott Vokes \fIvokes\.s@gmail\.com\fR\.
+.
+.SH "SEE ALSO"
+awk(1)
