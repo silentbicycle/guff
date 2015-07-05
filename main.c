@@ -42,6 +42,10 @@ int main(int argc, char **argv) {
     bool end_of_stream = false;
     bool has_rendered = false;
 
+    if(isatty(fileno(cfg.in))) {
+        fprintf(stderr, " -- Reading from stdin. Use `guff -h` for usage info, ^D to exit.\n");
+    }
+
     while (!end_of_stream) {
         data_set ds = { .pairs = NULL };
         int res = input_read(&cfg, &ds);
