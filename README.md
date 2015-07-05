@@ -163,3 +163,8 @@ Other options (mostly for internal testing):
     -S: disable stream mode
 
 For more details, see the man page.
+
+
+## Thanks
+
+Thanks to Mike English and Job Vranish for early feedback and suggestions.
