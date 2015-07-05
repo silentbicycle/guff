@@ -72,7 +72,7 @@ Or to SVG:
 
     $  wc -l *.c | grep -v total | sort -nr | awk '{print($1)}' | ./guff -s -m line -r > example.svg
 
-![](blob/master/example.svg)
+![](example.png)
 
     cat <<EOF | ./guff -s -x -m count
     1 1
@@ -86,7 +86,7 @@ Or to SVG:
     3 5
     -2 -3
 
-![](blob/master/example2.svg)
+![](example2.png)
 
 ## Input format
 
