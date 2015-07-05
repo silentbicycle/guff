@@ -90,7 +90,7 @@ Or to SVG:
 
 ## Input format
 
-guff reads a stream of lines of floating point numbers, seperated by a single character:
+guff reads a stream of lines of floating point numbers, separated by a single character:
 
     1 2.0 3
 
