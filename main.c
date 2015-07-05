@@ -40,22 +40,28 @@ int main(int argc, char **argv) {
     args_handle(&cfg, argc, argv);
 
     bool end_of_stream = false;
+    bool has_rendered = false;
+
     while (!end_of_stream) {
         data_set ds = { .pairs = NULL };
         int res = input_read(&cfg, &ds);
+
         if (res == -1) {
             end_of_stream = true;
         } else if (res != 0) {
             input_free(&ds);
             return res;
         }
-        if (ds.rows == 0) {  // no input
+
+        /* Explicitly allow a blank line before the first graph. */
+        if (ds.rows == 0 && has_rendered) {  // no input
             input_free(&ds);
             return 0;
         }
         
         res = draw(&cfg, &ds);
         input_free(&ds);
+        has_rendered = true;
         if (res != 0) { return res; }
 
         if (!end_of_stream) { printf("\n"); }
