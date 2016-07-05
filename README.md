@@ -6,6 +6,9 @@ guff is short for [MacGuffin][M].
 
 [M]: https://en.wikipedia.org/wiki/MacGuffin
 
+guff is distributed under the [ISC License][ISC].
+
+[ISC]: https://opensource.org/licenses/isc-license.txt
 
 ## Plots them?
 
