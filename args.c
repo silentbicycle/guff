@@ -20,6 +20,7 @@ static void usage(const char *msg) {
         "            [-m MODE] [-r] [-s] [-S] [-x] [FILE]\n"
         "\n"
         "Common options:\n"
+        "    -b: render to UTF-8 braille characters\n"
         "    -d WxH: set width and height (e.g. \"-d 72x40\", \"-d 640x480\")\n"
         "    -f: flip x & y axes in plot\n"
         "    -h: print this message\n"
@@ -52,10 +53,13 @@ static void parse_dims(config *cfg, const char *opt) {
 
 void args_handle(config *cfg, int argc, char **argv) {
     int fl;
-    while ((fl = getopt(argc, argv, "Acd:fhl:m:rsSx")) != -1) {
+    while ((fl = getopt(argc, argv, "Abcd:fhl:m:rsSx")) != -1) {
         switch (fl) {
         case 'A':               /* no axis */
             cfg->axis = false;
+            break;
+        case 'b':               /* braille */
+            cfg->plot_type = PLOT_BRAILLE;
             break;
         case 'c':               /* use colorblind-safe default colors */
             cfg->colorblind = true;

@@ -14,6 +14,7 @@ all: ${PROJECT}
 
 OBJS=	args.o \
 	ascii.o \
+	braille.o \
 	counter.o \
 	draw.o \
 	fnv.o \
