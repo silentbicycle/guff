@@ -4,7 +4,7 @@ guff(1) -- a plot device
 ## SYNOPSIS
 
 `guff` [-A] [-c] [-d WxH] [-f] [-h] [-l xyc]
-       [-m MODE] [-r] [-s] [-S] [-x] [FILE]
+       [-m MODE] [-r] [-s|-b] [-S] [-x] [FILE]
 
 
 ## DESCRIPTION
@@ -66,9 +66,10 @@ end-of-stream or a blank line is reached:
 
     $ guff
 
-Same, but generate SVG:
+Same, but generate SVG and UTF-8 braille characters:
 
     $ guff -s
+    $ guff -b
 
 Read number rows from a file:
 

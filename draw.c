@@ -5,6 +5,7 @@
 #include "scale.h"
 
 #include "ascii.h"
+#include "braille.h"
 #include "svg.h"
 #include "counter.h"
 
@@ -48,6 +49,10 @@ int draw(config *cfg, data_set *ds) {
     switch (cfg->plot_type) {
     case PLOT_ASCII:
         res = ascii_plot(cfg, &pi, ds);
+        break;
+
+    case PLOT_BRAILLE:
+        res = braille_plot(cfg, &pi, ds);
         break;
 
     case PLOT_SVG:

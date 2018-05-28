@@ -15,6 +15,7 @@ typedef struct {
 
 typedef enum {
     PLOT_ASCII,
+    PLOT_BRAILLE,
     PLOT_SVG,
 } output_t;
 
